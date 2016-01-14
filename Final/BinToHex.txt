@@ -1,0 +1,81 @@
+TITLE BinToHexDec
+INCLUDE Irvine32.inc
+.data
+
+buffer	BYTE 9 DUP(0),0
+
+hexF BYTE "1111",0
+hexE BYTE "1110",0
+hexD BYTE "1101",0
+hexC BYTE "1100",0
+hexB BYTE "1011",0
+hexA BYTE "1010",0
+hex9 BYTE "1001",0
+hex8 BYTE "1000",0
+hex7 BYTE "0111",0
+hex6 BYTE "0110",0
+hex5 BYTE "0101",0
+hex4 BYTE "0100",0
+hex3 BYTE "0011",0
+hex2 BYTE "0010",0
+hex1 BYTE "0001",0
+hex0 BYTE "0000",0
+hexarmut BYTE "11111111",0
+
+xF		BYTE "F",0
+xE		BYTE "E",0
+xD		BYTE "D",0
+xC		BYTE "C",0
+xB		BYTE "B",0
+xA		BYTE "A",0
+
+.code
+main PROC
+	mov edx, OFFSET buffer		;load offset of the first
+	mov ecx,SIZEOF buffer	
+	mov ecx,LENGTHOF buffer		
+
+	call ReadString				;Read string, typed by user
+	call BinToHex
+	exit
+main ENDP
+
+
+
+
+
+
+
+BinToHex PROC
+	INVOKE Str_compare, ADDR hexF, ADDR buffer
+	Jne L2
+L1:
+	mov edx,OFFSET xF
+	mov eax,000Fh
+	call WriteString
+	call Crlf
+	jmp quit
+
+L2:
+	INVOKE Str_compare, ADDR hexE, ADDR buffer
+	Jne L3
+	mov eax,000Eh
+	mov edx,OFFSET xE
+	call WriteString
+	call Crlf
+	jmp quit
+
+L3:
+	INVOKE Str_compare, ADDR hex5, ADDR buffer
+	jne quit
+	mov	eax,5
+	call WriteDec
+	call Crlf
+	jmp quit
+
+
+
+quit:
+ret
+BinToHex ENDP
+END main

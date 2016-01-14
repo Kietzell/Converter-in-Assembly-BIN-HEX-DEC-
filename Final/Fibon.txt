@@ -1,0 +1,31 @@
+TITLE Fibonacci
+
+INCLUDE Irvine32.inc
+
+FIB_COUNT=47
+array DWORD FIB_COUNT DUP(?)
+
+.code
+main PROC
+	;create the file
+	mov edx, OFFSET filename
+	call CreateOutputFile
+	mov fileHandle, eax
+
+	;Generate the array of value
+	mov esi, OFFSET array
+	mov ecx, FIB_COUNT
+	call generate_fibonacci
+
+	;Write the array to a file
+	mov eax, fileHandle
+	mov edx, OFFSET array
+	mov ecx, SIZEOF array
+	call WriteToFile
+
+	;Close the file
+	mov eax, fileHandle
+	call CloseFile
+
+	exit
+main ENDP

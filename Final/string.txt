@@ -1,0 +1,23 @@
+TITLE Copy a String Backwards(CH4, ex8)
+
+
+INCLUDE Irvine32.inc
+
+.data
+source BYTE "this is source string", 0
+target BYTE SIZEOF source DUP('#')
+
+.code
+main PROC
+	mov esi,(OFFSET source)+(SIZEOF source)-2
+	move edi, OFFSET target
+	mov ecx, SIZEOF source
+
+L1:	mov al, [esi]
+	move [edi], al
+	dec esi
+	inc esi
+	loop L1
+exit ENDP
+end main
+
